@@ -35,17 +35,14 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://sarbath-kart-backend.onrender.com/api/form",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/form`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
       if (response.ok) {
         setSuccess(true);

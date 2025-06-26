@@ -11,7 +11,7 @@ const Home = ({ addToCart }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://sarbath-kart-backend.onrender.com/api/products")
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => {
         setProductt(data);

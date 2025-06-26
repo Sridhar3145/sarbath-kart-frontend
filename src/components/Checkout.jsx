@@ -59,7 +59,7 @@ const Checkout = ({ cart, setCart }) => {
 
     try {
       const response = await fetch(
-        "https://sarbath-kart-backend.onrender.com/api/checkout",
+        `${import.meta.env.VITE_API_URL}/api/checkout`,
         {
           method: "POST",
           headers: {

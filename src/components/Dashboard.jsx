@@ -20,9 +20,7 @@ export default function Dashboard() {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetch(
-          "https://sarbath-kart-backend.onrender.com/api/orders"
-        );
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`);
         const data = await res.json();
         console.log("Fetched orders:", data);
         setDetails(data);
