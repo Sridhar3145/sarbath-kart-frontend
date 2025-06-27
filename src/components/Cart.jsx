@@ -154,7 +154,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
               <div className="cart-btn-box">
                 <button
                   onClick={() => {
-                    const token = localStorage.getItem("token");
+                    const token = localStorage.getItem("token"); //
                     if (token && token !== "undefined") {
                       navigate("/checkout");
                     } else {
