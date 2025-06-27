@@ -155,7 +155,10 @@ const Navbar = ({ cartCount = 2 }) => {
       {/* Mobile Dropdown Menu */}
       {toggleMenu && (
         <div className="md:hidden fixed top-20 left-0 right-0 z-50 flex justify-left">
-          <div className="bg-yellow-400 text-black px-5 py-8 space-y-4 text-left shadow-2xl rounded-xl w-full max-w-70 ">
+          <div
+            onTouch
+            className="bg-yellow-400 text-black px-5 py-8 space-y-4 text-left shadow-2xl rounded-xl w-full max-w-70 "
+          >
             <Link
               to="/"
               onClick={handleToggle}
@@ -186,7 +189,13 @@ const Navbar = ({ cartCount = 2 }) => {
             </Link>
 
             {username.toLowerCase() === "sridhar" && (
-              <Link to="/dashboard">Dashboard</Link>
+              <Link
+                to="/dashboard"
+                onClick={handleToggle}
+                className="block text-lg font-medium hover:text-yellow-600 transition"
+              >
+                Dashboard
+              </Link>
             )}
             <button
               onClick={() => {
@@ -196,6 +205,7 @@ const Navbar = ({ cartCount = 2 }) => {
                 } else {
                   navigate("/login");
                 }
+                handleToggle();
               }}
               className="bg-black text-[#FFE169] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors "
             >
@@ -204,13 +214,20 @@ const Navbar = ({ cartCount = 2 }) => {
             {!username ? (
               <Link
                 to="/login"
+                onClick={() => {
+                  handleLogout();
+                  handleToggle();
+                }}
                 className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
               >
                 Login
               </Link>
             ) : (
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  handleToggle();
+                }}
                 className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
               >
                 Logout
