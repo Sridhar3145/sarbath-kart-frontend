@@ -41,11 +41,13 @@ const Navbar = ({ cartCount = 2 }) => {
     <>
       <nav className="relative bg-[#FFE169] text-gray-800 px-4 md:px-12 py-3 z-50">
         {/* Mobile layout */}
-        <div className="flex justify-between items-center md:hidden">
-          {/* ☰ left */}
-          <button onClick={handleToggle} className="text-2xl font-bold">
-            ☰
-          </button>
+        <div className="flex justify-between items-center md:hidden relative">
+          {/* ☰ and Signup on the left */}
+          <div className="flex items-center gap-3">
+            <button onClick={handleToggle} className="text-2xl font-bold">
+              ☰
+            </button>
+          </div>
 
           {/* Logo center */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
@@ -58,18 +60,17 @@ const Navbar = ({ cartCount = 2 }) => {
           </div>
 
           {/* Cart icon right */}
-          <Link to="/cart" className="relative">
-            <PiShoppingCartSimpleBold className="w-8 h-8 text-black" />
-            {cartCount > 0 ? (
+          <div className="flex items-center gap-5">
+            <Link to="/signup">
+              <FaUserAlt className="w-7 h-7 text-black" />
+            </Link>
+            <Link to="/cart" className="relative">
+              <PiShoppingCartSimpleBold className="w-8 h-8 text-black" />
               <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                {cartCount}
+                {cartCount > 0 ? cartCount : 0}
               </span>
-            ) : (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                0
-              </span>
-            )}
-          </Link>
+            </Link>
+          </div>
         </div>
 
         {/* Desktop layout */}
@@ -183,6 +184,10 @@ const Navbar = ({ cartCount = 2 }) => {
             >
               Contact
             </Link>
+
+            {username.toLowerCase() === "sridhar" && (
+              <Link to="/dashboard">Dashboard</Link>
+            )}
             <button
               onClick={() => {
                 const token = localStorage.getItem("token");
@@ -192,10 +197,25 @@ const Navbar = ({ cartCount = 2 }) => {
                   navigate("/login");
                 }
               }}
-              className="bg-black text-[#FFE169] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+              className="bg-black text-[#FFE169] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors "
             >
               Buy Now
             </button>
+            {!username ? (
+              <Link
+                to="/login"
+                className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
+              >
+                Login
+              </Link>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       )}
