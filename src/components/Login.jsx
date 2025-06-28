@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Validation schema
 const schema = yup.object().shape({
@@ -75,7 +75,9 @@ const Login = () => {
       }, 5000);
     }
   };
-
+  useEffect(() => {
+    localStorage.removeItem("cart");
+  }, []);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

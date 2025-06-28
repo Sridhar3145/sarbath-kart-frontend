@@ -26,6 +26,7 @@ const Navbar = ({ cartCount = 2 }) => {
   }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem("cart");
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     window.dispatchEvent(new Event("storage"));
