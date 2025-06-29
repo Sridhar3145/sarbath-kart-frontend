@@ -100,16 +100,16 @@ const Home = ({ addToCart }) => {
 
                   <div className="quantity-box">
                     <button
-                      onClick={() => decreaseQty(item.id)}
+                      onClick={() => decreaseQty(item._id)}
                       className="quantity-btn"
                     >
                       -
                     </button>
                     <span className="px-3 text-lg text-yellow">
-                      {quantities[item.id] || 1}
+                      {quantities[item._id] || 1}
                     </span>
                     <button
-                      onClick={() => increaseQty(item.id)}
+                      onClick={() => increaseQty(item._id)}
                       className="quantity-btn"
                     >
                       +
