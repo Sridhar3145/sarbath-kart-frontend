@@ -13,9 +13,9 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
     removeFromCart(id);
   };
 
-  const updateQuantity = (id, delta) => {
+  const updateQuantity = (_id, delta) => {
     const updatedCart = cart.map((item) =>
-      item.id === id
+      item._id === _id
         ? {
             ...item,
             quantity: Math.max(1, item.quantity + delta),
@@ -46,7 +46,6 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
         ) : (
           <>
             {cart.map((item) => {
-              console.log(item);
               return (
                 <div
                   key={`${item._id}-${item.title}`}
@@ -76,7 +75,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
                           <div className="flex items-center gap-3 sm:hidden">
                             <div className="flex items-center border rounded-4xl px-3 bg-black">
                               <button
-                                onClick={() => updateQuantity(item.id, -1)}
+                                onClick={() => updateQuantity(item._id, -1)}
                                 className="text-lg px-2 py-1 font-bold text-yellow"
                               >
                                 -
@@ -85,7 +84,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
                                 {item.quantity}
                               </span>
                               <button
-                                onClick={() => updateQuantity(item.id, 1)}
+                                onClick={() => updateQuantity(item._id, 1)}
                                 className="text-lg px-2 py-1 font-bold text-yellow"
                               >
                                 +
@@ -106,7 +105,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
                     <div className="hidden sm:flex items-center gap-6">
                       <div className="quantity-box">
                         <button
-                          onClick={() => updateQuantity(item.id, -1)}
+                          onClick={() => updateQuantity(item._id, -1)}
                           className="quantity-btn"
                         >
                           -
@@ -115,7 +114,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => updateQuantity(item.id, 1)}
+                          onClick={() => updateQuantity(item._id, 1)}
                           className="quantity-btn"
                         >
                           +
