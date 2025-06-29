@@ -23,17 +23,17 @@ const Home = ({ addToCart }) => {
     AOS.refresh();
   }, []);
 
-  const increaseQty = (id) => {
+  const increaseQty = (_id) => {
     setQuantities((prev) => ({
       ...prev,
-      [id]: (prev[id] || 1) + 1,
+      [_id]: (prev[_id] || 1) + 1,
     }));
   };
 
-  const decreaseQty = (id) => {
+  const decreaseQty = (_id) => {
     setQuantities((prev) => ({
       ...prev,
-      [id]: prev[id] > 1 ? prev[id] - 1 : 1,
+      [_id]: prev[_id] > 1 ? prev[_id] - 1 : 1,
     }));
   };
 
