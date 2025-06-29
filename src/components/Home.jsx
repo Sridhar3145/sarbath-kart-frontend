@@ -38,7 +38,7 @@ const Home = ({ addToCart }) => {
   };
 
   const handleAddToCart = (product) => {
-    const quantity = quantities[product.id] || 1;
+    const quantity = quantities[product._id] || 1;
     addToCart({ ...product, quantity });
     navigate("/cart");
   };
