@@ -10,7 +10,6 @@ const Footer = () => {
   return (
     <footer className="bg-yellow-400 text-black p-6 mt-10">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        {/* Logo */}
         <div className="flex justify-center">
           <div className="w-28 h-28 md:w-32 md:h-32 flex items-center justify-center rounded-full bg-black">
             <img
@@ -21,7 +20,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/*  (Navigation Links) */}
         <div className="flex flex-col items-start  space-y-2 text-center text-xl">
           <Link to="/" className={linkClass}>
             Home
@@ -37,7 +35,6 @@ const Footer = () => {
           </Link>
         </div>
 
-        {/* Address & Contact  */}
         <div className="flex flex-col items-start  md:items-end space-y-2 text-center  md:text-right">
           <p className="p-style">
             <span>📞</span>
@@ -57,10 +54,8 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Horizontal Line */}
       <hr className="border-gray-600 my-4" />
 
-      {/* Copyright Text */}
       <p className="text-center text-sm md:text-base font-semibold">
         © 2025 Selvam Sarbath. All Rights Reserved.
       </p>

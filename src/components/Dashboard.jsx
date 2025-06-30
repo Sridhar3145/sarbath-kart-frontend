@@ -29,11 +29,10 @@ export default function Dashboard() {
       }
     };
 
-    fetchOrders(); // invoke the async function
+    fetchOrders();
   }, [navigate]);
 
   const totalAmount = details.reduce((sum, order) => {
-    // order.total = "₹65" → remove ₹, convert to number
     const num = Number(order.total.replace(/[^\d]/g, "")) || 0;
     return sum + num;
   }, 0);
@@ -41,7 +40,7 @@ export default function Dashboard() {
   const productCount = {};
 
   details.forEach((order) => {
-    const [productRaw] = order.order.split(" ×"); // 👉 "Nannari Sarbath × 1"
+    const [productRaw] = order.order.split(" ×");
     const product = productRaw.trim();
     productCount[product] = (productCount[product] || 0) + 1;
   });

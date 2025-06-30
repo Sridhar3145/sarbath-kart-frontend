@@ -35,10 +35,6 @@ const Checkout = ({ cart, setCart }) => {
     0
   );
 
-  const orderSummary = cart
-    .map((item) => `${item.title} × ${item.quantity}`)
-    .join(", ");
-
   const onSubmit = async (data) => {
     setLoading(true);
 
@@ -159,7 +155,6 @@ const Checkout = ({ cart, setCart }) => {
             </p>
           </div>
 
-          {/* QR Code */}
           <div className="mb-6 text-center">
             <p className="font-semibold mb-2 text-lg">
               Scan & Pay (GPay, PhonePe, Paytm)
@@ -174,7 +169,6 @@ const Checkout = ({ cart, setCart }) => {
             </p>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -187,7 +181,6 @@ const Checkout = ({ cart, setCart }) => {
             {loading ? "Placing Order..." : "Place Order"}
           </button>
 
-          {/* ✅ Success Message */}
           {success && (
             <p className="text-green-700 mt-4 text-center text-sm">
               ✅ Order placed successfully! Thank you 😊

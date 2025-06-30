@@ -103,7 +103,6 @@ const Contact = () => {
               )}
             </div>
 
-            {/* Email */}
             <div className="relative">
               <input
                 type="email"
@@ -118,7 +117,6 @@ const Contact = () => {
               )}
             </div>
 
-            {/* Contact No */}
             <div className="relative">
               <input
                 type="text"
@@ -150,7 +148,6 @@ const Contact = () => {
               )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -163,7 +160,6 @@ const Contact = () => {
               {loading ? "Sending..." : "Send Message"}
             </button>
 
-            {/* Success Message */}
             {success && (
               <p className="text-green-700 mt-4 text-xl">
                 ✅ Your message has been sent successfully!

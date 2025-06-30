@@ -52,18 +52,18 @@ const Login = () => {
         throw new Error(result.msg || "Login failed");
       }
 
-      // ✅ FIX: Store token + username
+      
       localStorage.setItem("token", result.token);
-      localStorage.setItem("username", result.name); // 🔥 this line is very important
+      localStorage.setItem("username", result.name); 
       window.dispatchEvent(new Event("storage"));
 
       setSuccessful(true);
       reset();
-      // ✅ Go to dashboard after login
+      
       setTimeout(() => {
         setSuccessful(false);
         if (result.name.toLowerCase() === "sridhar") {
-          navigate("/dashboard"); // 🔥 navigate after login
+          navigate("/dashboard");
         } else {
           navigate("/");
         }
