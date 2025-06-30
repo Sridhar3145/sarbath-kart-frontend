@@ -30,7 +30,7 @@ const Dashboard = () => {
     };
 
     fetchOrders();
-  }, [navigate]);
+  }, []);
 
   const totalAmount = details.reduce((sum, order) => {
     const num = Number(order.total.replace(/[^\d]/g, "")) || 0;
