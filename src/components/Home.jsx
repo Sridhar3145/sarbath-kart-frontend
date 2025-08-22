@@ -47,7 +47,7 @@ const Home = ({ addToCart }) => {
     <>
       {/* Hero Section */}
       <section className="hero-section">
-        <img src={fruitimg2} data-aos="fade-right" />
+        <img src={fruitimg2} alt="Fruit-image" data-aos="fade-right" />
         <div className="text-center text-white px-4" data-aos="fade-left">
           <h1 className="text-5xl md:text-6xl font-bold drop-shadow-lg text-black">
             Cool <span className="text-white">Down</span> with Fresh Sarbath!

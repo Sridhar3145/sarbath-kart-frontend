@@ -8,7 +8,7 @@ const Footer = () => {
     "relative hover:scale-110 transition-transform duration-300 hover:text-black after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black hover:after:w-full after:transition-all after:duration-300 font-head";
 
   return (
-    <footer className="bg-yellow-400 text-black p-6 mt-10">
+    <footer className="bg-yellow-400 text-black p-6 mt-10 sticky">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex justify-center">
           <div className="w-28 h-28 md:w-32 md:h-32 flex items-center justify-center rounded-full bg-black">

@@ -52,7 +52,7 @@ const Products = ({ addToCart }) => {
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-48 md:w-72 bg-yellow-400 rounded-lg shadow-gray-700 shadow-xl"
+                className="w-48 md:w-72 bg-yellow-400 rounded-lg shadow-gray-700 shadow-md"
               />
 
               <div className="md:ml-8 mt-6 md:mt-0">
