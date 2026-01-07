@@ -103,7 +103,6 @@ const Login = () => {
         <input
           type="password"
           placeholder="Password"
-          autoComplete="new-password"
           {...register("password")}
           className="border p-2 w-full rounded"
         />
