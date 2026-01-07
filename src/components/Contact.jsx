@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,22 +36,23 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/form`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const existingMessages =
+        JSON.parse(localStorage.getItem("contactMessages")) || [];
 
-      if (response.ok) {
-        setSuccess(true);
-        reset();
-        setTimeout(() => setSuccess(false), 5000);
-      } else {
-        alert("Oops! Something went wrong.");
-      }
+      const newMessage = {
+        id: Date.now(),
+        ...data,
+        date: new Date().toISOString(),
+      };
+
+      localStorage.setItem(
+        "contactMessages",
+        JSON.stringify([...existingMessages, newMessage])
+      );
+
+      setSuccess(true);
+      reset();
+      setTimeout(() => setSuccess(false), 5000);
     } catch (error) {
       alert("Failed to send. Please try again.");
     } finally {
@@ -59,11 +61,10 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-yellow-400 rounded-xl shadow-md mt-20 mb-52">
+    <div className="max-w-5xl mx-auto p-6 bg-[#ffeeb3]  rounded-xl shadow-md mt-20 mb-52">
       <h2 className="section-heading">Contact Us</h2>
 
       <div className="grid md:grid-cols-2 gap-6 items-center">
-        {/* Contact Details */}
         <div className="space-y-4">
           <p className="text-lg font-medium text-black">Get in Touch</p>
           <p className="text-gray-600">
@@ -85,10 +86,9 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Contact Form */}
         <div className="bg-second p-6 rounded-lg shadow">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            {/* Name */}
+
             <div className="relative">
               <input
                 type="text"
@@ -99,7 +99,9 @@ const Contact = () => {
               />
               <label className="contact-label-style">Name</label>
               {errors.name && (
-                <p className="text-red-600 text-sm">{errors.name.message}</p>
+                <p className="text-red-600 text-sm">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
@@ -113,7 +115,9 @@ const Contact = () => {
               />
               <label className="contact-label-style">Email</label>
               {errors.email && (
-                <p className="text-red-600 text-sm">{errors.email.message}</p>
+                <p className="text-red-600 text-sm">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -133,7 +137,6 @@ const Contact = () => {
               )}
             </div>
 
-            {/* Message */}
             <div className="relative">
               <textarea
                 rows="4"
@@ -144,18 +147,19 @@ const Contact = () => {
               ></textarea>
               <label className="contact-label-style">Message</label>
               {errors.message && (
-                <p className="text-red-600 text-sm">{errors.message.message}</p>
+                <p className="text-red-600 text-sm">
+                  {errors.message.message}
+                </p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-2 rounded-md text-black shadow-lg transition ${
-                loading
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-yellow-400 hover:bg-yellow-500"
-              }`}
+              className={`w-full py-2 rounded-md text-[#f9db79] shadow-lg transition ${loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-black hover:bg-gray-800"
+                }`}
             >
               {loading ? "Sending..." : "Send Message"}
             </button>

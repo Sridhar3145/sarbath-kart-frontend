@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import fruitimg2 from "../assets/fruitimg2.webp";
+import heroimg4 from "../assets/heroimg4.png";
+import productsData from "../data/productsData";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -11,11 +12,7 @@ const Home = ({ addToCart }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProductt(data);
-      });
+    setProductt(productsData);
   }, []);
 
   useEffect(() => {
@@ -45,14 +42,13 @@ const Home = ({ addToCart }) => {
 
   return (
     <>
-      {/* Hero Section */}
       <section className="hero-section">
-        <img src={fruitimg2} alt="Fruit-image" data-aos="fade-right" />
+        <img src={heroimg4} alt="Fruit-image" data-aos="fade-right" />
         <div className="text-center text-white px-4" data-aos="fade-left">
-          <h1 className="text-5xl md:text-6xl font-bold drop-shadow-lg text-black">
-            Cool <span className="text-white">Down</span> with Fresh Sarbath!
+          <h1 className="text-5xl md:text-6xl font-bold drop-shadow-lg text-[#1F2937]">
+            Cool <span className="text-[#4B5563]">Down</span> with Fresh Sarbath!
           </h1>
-          <p className="text-lg md:text-xl mt-4 drop-shadow-md text-black">
+          <p className="text-lg md:text-xl mt-4 drop-shadow-md text-[#1F2937]">
             Taste the best flavors in town, made fresh for you. 🍹
           </p>
           <button
@@ -65,9 +61,8 @@ const Home = ({ addToCart }) => {
         </div>
       </section>
 
-      {/* Top Products Section */}
       <section className="mt-20 px-6 lg:px-28">
-        <h1 className="text-3xl font-bold mb-6 text-center lg:text-left">
+        <h1 className="text-3xl font-bold mb-6 text-center lg:text-left text-[#1F2937]">
           Top Product's
         </h1>
 
@@ -75,22 +70,33 @@ const Home = ({ addToCart }) => {
           {productt.slice(0, 3).map((item) => (
             <div
               key={item._id}
-              className="w-full bg-yellow-400 rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 duration-300"
+              className="w-full bg-[#ffeeb3] rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+
             >
-              <div className="p-6 flex flex-col items-center">
-                <h2 className="text-xl text-black font-semibold text-center mb-2">
+              <div className="p-4 flex flex-col items-center">
+                <h2 className="text-xl text-[#1F2937] font-semibold text-center mb-2">
                   {item.title}
                 </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  Traditional cooling drink
+                </p>
+
                 <img
                   src={item.image}
                   alt="product"
-                  className="h-56 w-56 object-contain mb-4"
+                  className="h-44 w-44 object-contain mb-3"
                 />
-                <p className="text-lg font-bold text-black mb-2">
-                  ₹ {item.price}.00
-                </p>
+                <div className="flex justify-center items-center w-full mt-2 mb-3">
+                  <p className="text-xl font-semibold text-[#1F2937]">
+                    ₹ {item.price}.00
+                  </p>
+                  <p className="text-md text-gray-500 ml-4">
+                    750 ml
+                  </p>
+                </div>
 
-                <div className="flex sm:flex-row items-center justify-center w-full gap-10 mt-4">
+
+                <div className="flex sm:flex-row items-center justify-center w-full gap-8 mt-3">
                   <button
                     onClick={() => handleAddToCart(item)}
                     className="atc-btn"
@@ -121,12 +127,10 @@ const Home = ({ addToCart }) => {
           ))}
         </div>
       </section>
-
-      {/* Show More Button */}
       <div className="mt-10 text-center lg:text-left px-6 lg:px-28">
         <button
           onClick={() => navigate("/product")}
-          className="text-2xl font-medium hover:underline"
+          className="text-2xl font-medium hover:underline text-[#1F2937]"
         >
           Show More Product's....
         </button>
@@ -136,3 +140,4 @@ const Home = ({ addToCart }) => {
 };
 
 export default Home;
+

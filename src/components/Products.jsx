@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import productsData from "../data/productsData";
 
 const Products = ({ addToCart }) => {
   const navigate = useNavigate();
@@ -9,12 +10,8 @@ const Products = ({ addToCart }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProductt(data);
-        setLoading(false);
-      });
+    setProductt(productsData);
+    setLoading(false);
   }, []);
 
   const increaseQty = (_id) => {
@@ -52,22 +49,21 @@ const Products = ({ addToCart }) => {
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-48 md:w-72 bg-yellow-400 rounded-lg shadow-gray-700 shadow-md"
+                className="w-48 md:w-72 bg-[#ffeeb3]  rounded-lg shadow-gray-700 shadow-md"
               />
 
               <div className="md:ml-8 mt-6 md:mt-0">
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-3xl font-bold text-[#1F2937]">
                   {item.title}
                 </h1>
-                <p className="text-xl text-green-600 font-semibold mt-2">
+                <p className="text-xl text-[#1F2937] font-semibold mt-2">
                   ₹{item.price}.00
                 </p>
-                <p className="text-gray-700 mt-4">
+                <p className="text-[#4B5563] mt-4">
                   Refreshing {item.title.toLowerCase()} made with high-quality
                   ingredients. Perfect for summer!
                 </p>
 
-                {/* Quantity Selector & Add to Cart */}
                 <div className="mt-4 flex items-center space-x-4">
                   <div className="quantity-box">
                     <button
@@ -76,7 +72,7 @@ const Products = ({ addToCart }) => {
                     >
                       -
                     </button>
-                    <span className="px-3 text-lg text-yellow ">
+                    <span className="px-3 text-lg text-yellow">
                       {quantities[item._id] || 1}
                     </span>
                     <button
@@ -87,7 +83,6 @@ const Products = ({ addToCart }) => {
                     </button>
                   </div>
 
-                  {/* Add to Cart Button */}
                   <button
                     onClick={() => handleAddToCart(item)}
                     className="atc-btn"
@@ -96,8 +91,9 @@ const Products = ({ addToCart }) => {
                   </button>
                 </div>
 
-                {/* Product Highlights */}
-                <p className="text-gray-700 mt-8">{item.description}</p>
+                <p className="text-gray-700 mt-8">
+                  {item.description}
+                </p>
               </div>
             </div>
           ))
@@ -108,3 +104,4 @@ const Products = ({ addToCart }) => {
 };
 
 export default Products;
+

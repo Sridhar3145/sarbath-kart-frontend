@@ -8,16 +8,16 @@ import { useNavigate } from "react-router-dom";
 const Navbar = ({ cartCount = 2 }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     const updateUser = () => {
       const storedUser = localStorage.getItem("username");
       setUsername(storedUser || "");
+      setRole(localStorage.getItem("role") || "");
     };
 
-    updateUser(); // Initial run
-
-    // Whenever something changes in localStorage (login/logout)
+    updateUser();
     window.addEventListener("storage", updateUser);
 
     return () => {
@@ -29,28 +29,31 @@ const Navbar = ({ cartCount = 2 }) => {
     localStorage.removeItem("cart");
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("role");
     window.dispatchEvent(new Event("storage"));
     navigate("/login");
   };
 
+
+  const isAdmin =
+    localStorage.getItem("token") &&
+    role === "admin";
+
+
   const handleToggle = () => setToggleMenu((prev) => !prev);
 
   const navLinkClass =
-    "relative font-head hover:scale-110 transition-transform duration-300 hover:text-black after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black hover:after:w-full after:transition-all after:duration-300";
+    "relative font-head hover:scale-110 transition-transform duration-300 hover:text-[#1F2937] after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black hover:after:w-full after:transition-all after:duration-300";
 
   return (
     <>
-      <nav className="relative bg-[#FFE169] text-gray-800 px-4 md:px-12 py-3 z-50">
-        {/* Mobile layout */}
+      <nav className="relative bg-[#f9db79] text-black px-4 md:px-12 py-3 z-50 border-b-2 border-black">
         <div className="flex justify-between items-center md:hidden relative">
-          {/* ☰ and Signup on the left */}
           <div className="flex items-center gap-3">
             <button onClick={handleToggle} className="text-2xl font-bold">
               ☰
             </button>
           </div>
-
-          {/* Logo center */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <Link
               to="/"
@@ -60,7 +63,6 @@ const Navbar = ({ cartCount = 2 }) => {
             </Link>
           </div>
 
-          {/* Cart icon right */}
           <div className="flex items-center gap-5">
             <Link to="/signup">
               <FaUserAlt className="w-7 h-7 text-black" />
@@ -74,9 +76,7 @@ const Navbar = ({ cartCount = 2 }) => {
           </div>
         </div>
 
-        {/* Desktop layout */}
         <div className="hidden md:flex justify-between items-center">
-          {/* Logo left */}
           <Link
             to="/"
             className="w-20 h-20 rounded-full bg-black flex items-center justify-center overflow-hidden"
@@ -84,7 +84,6 @@ const Navbar = ({ cartCount = 2 }) => {
             <img src={logo} alt="logo" className="w-24 h-24 object-contain" />
           </Link>
 
-          {/* Center links */}
           <div className="flex space-x-8 text-lg font-semibold">
             <Link to="/" className={navLinkClass}>
               Home
@@ -98,12 +97,15 @@ const Navbar = ({ cartCount = 2 }) => {
             <Link to="/contact" className={navLinkClass}>
               Contact
             </Link>
-            {username.toLowerCase() === "sridhar" && (
-              <Link to="/dashboard">Dashboard</Link>
+            {isAdmin && (
+              <Link to="/dashboard" className={navLinkClass}>
+                Dashboard
+              </Link>
             )}
+
+
           </div>
 
-          {/* Cart + Buy Now */}
           <div className="flex items-center gap-6">
             <Link to="/signup">
               <FaUserAlt className="w-7 h-7 text-black" />
@@ -130,21 +132,21 @@ const Navbar = ({ cartCount = 2 }) => {
                   navigate("/login");
                 }
               }}
-              className="bg-black text-[#FFE169] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+              className="bg-black text-[#f9db79] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
               Buy Now
             </button>
             {!username ? (
               <Link
                 to="/login"
-                className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors"
+                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors"
               >
                 Login
               </Link>
             ) : (
               <button
                 onClick={handleLogout}
-                className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors"
+                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors"
               >
                 Logout
               </button>
@@ -153,7 +155,6 @@ const Navbar = ({ cartCount = 2 }) => {
         </div>
       </nav>
 
-      {/* Mobile Dropdown Menu */}
       {toggleMenu && (
         <div className="md:hidden fixed top-20 left-0 right-0 z-50 flex justify-left">
           <div
@@ -188,16 +189,12 @@ const Navbar = ({ cartCount = 2 }) => {
             >
               Contact
             </Link>
-
-            {username.toLowerCase() === "sridhar" && (
-              <Link
-                to="/dashboard"
-                onClick={handleToggle}
-                className="block text-lg font-medium hover:text-yellow-600 transition"
-              >
+            {isAdmin && (
+              <Link to="/dashboard" className={navLinkClass}>
                 Dashboard
               </Link>
             )}
+
             <button
               onClick={() => {
                 const token = localStorage.getItem("token");
@@ -208,7 +205,7 @@ const Navbar = ({ cartCount = 2 }) => {
                 }
                 handleToggle();
               }}
-              className="bg-black text-[#FFE169] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors "
+              className="bg-black text-[#f9db79] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors "
             >
               Buy Now
             </button>
@@ -219,7 +216,7 @@ const Navbar = ({ cartCount = 2 }) => {
                   handleLogout();
                   handleToggle();
                 }}
-                className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
+                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
               >
                 Login
               </Link>
@@ -229,7 +226,7 @@ const Navbar = ({ cartCount = 2 }) => {
                   handleLogout();
                   handleToggle();
                 }}
-                className="bg-black text-[#FFE169] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
+                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
               >
                 Logout
               </button>

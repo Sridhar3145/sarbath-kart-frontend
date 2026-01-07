@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,71 +13,160 @@ const Dashboard = () => {
 
     if (!token) {
       navigate("/login");
+      return;
     }
 
     if (storedName) {
       setUsername(storedName);
     }
 
-    const fetchOrders = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/orders`);
-        const data = await res.json();
-        console.log("Fetched orders:", data);
-        setDetails(data);
-      } catch (error) {
-        console.error("Order fetch failed:", error);
-      }
-    };
+    const storedOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
+    setDetails(storedOrders);
+  }, [navigate]);
 
-    fetchOrders();
-  }, []);
+  const gridCols =
+    "60px 160px 160px 320px 140px 80px 120px";
 
-  const totalAmount = details.reduce((sum, order) => {
-    const num = Number(order.total.replace(/[^\d]/g, "")) || 0;
-    return sum + num;
-  }, 0);
+  const totalAmount = details.reduce(
+    (sum, order) => sum + Number(order.total || 0),
+    0
+  );
+
   let topProduct = "--";
-  const productCount = {};
 
-  details.forEach((order) => {
-    const [productRaw] = order.order.split(" ×");
-    const product = productRaw.trim();
-    productCount[product] = (productCount[product] || 0) + 1;
-  });
+
+  const productCount = details.reduce((acc, order) => {
+    return order.items.reduce((innerAcc, item) => {
+      innerAcc[item.title] =
+        (innerAcc[item.title] || 0) + item.quantity;
+      return innerAcc;
+    }, acc);
+  }, {});
+
 
   const sortedProducts = Object.entries(productCount).sort(
     (a, b) => b[1] - a[1]
   );
+
   if (sortedProducts.length) {
     topProduct = sortedProducts[0][0];
   }
+  console.log(details);
 
   return (
-    <>
-      <div className="p-6 min-h-screen bg-second">
-        <div className="max-w-xl mx-auto bg-yellow-400 p-6 rounded-2xl shadow-xl">
-          <h1 className="text-2xl font-bold mb-4"> Welcome, {username} !!</h1>
+    <div className="min-h-screen bg-second p-6">
+      <div className="max-w-7xl mx-auto">
 
-          <div className="space-y-4">
-            <div className="bg-black p-4 rounded-xl shadow-sm text-yellow">
-              <h2 className="text-lg font-semibold">📦 Total Orders</h2>
-              <p className="text-xl font-bold ">{details.length}</p>
-            </div>
+        <h1 className="text-3xl font-semibold text-gray-800 mb-8">
+          Welcome, {username}
+        </h1>
 
-            <div className="bg-black p-4 rounded-xl shadow-sm text-yellow">
-              <h2 className="text-lg font-semibold">💰 Total Revenue</h2>
-              <p className="text-xl font-bold">₹{totalAmount}</p>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-14">
+          <div className="bg-[#ffeeb3] rounded-2xl p-6 shadow-md">
+            <p className="text-sm text-gray-500">Total Orders</p>
+            <h2 className="text-4xl font-bold text-gray-900">
+              {details.length}
+            </h2>
+          </div>
 
-            <div className="bg-black p-4 rounded-xl shadow-sm text-yellow">
-              <h2 className="text-lg font-semibold">🥤 Top Product</h2>
-              <p className="text-xl font-bold">{topProduct}</p>
-            </div>
+          <div className="bg-[#ffeeb3] rounded-2xl p-6 shadow-md">
+            <p className="text-sm text-gray-500">Total Revenue</p>
+            <h2 className="text-4xl font-bold text-[#EAB308]">
+              ₹{totalAmount}
+            </h2>
+          </div>
+
+          <div className="bg-[#ffeeb3] rounded-2xl p-6 shadow-md">
+            <p className="text-sm text-gray-500">Top Product</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {topProduct}
+            </h2>
           </div>
         </div>
+
+        {details.length > 0 && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Recent Orders
+            </h2>
+            <div className="overflow-x-auto w-full">
+              <div className="bg-[#FFF4CC] rounded-xl shadow-md w-full">
+
+                <div
+                  className="grid px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  style={{ gridTemplateColumns: gridCols }}
+                >
+                  <div>S.No</div>
+                  <div>Customer</div>
+                  <div>Mobile</div>
+                  <div>Product</div>
+                  <div>Price / unit</div>
+                  <div className="text-center">Qty</div>
+                  <div className="text-right">Total</div>
+                </div>
+
+                {details.map((order, index) => {
+                  const totalQty = order.items.reduce(
+                    (sum, item) => sum + item.quantity,
+                    0
+                  );
+
+                  return (
+                    <div
+                      key={index}
+                      className={`grid px-6 py-4 text-sm items-start border-b last:border-none
+                                  ${index % 2 === 0 ? "bg-white/40" : ""}`}
+                      style={{ gridTemplateColumns: gridCols }}
+                    >
+
+                      <div>{index + 1}</div>
+
+
+                      <div className="font-medium">
+                        {order.customer?.name || "Guest"}
+                      </div>
+
+
+                      <div>{order.customer?.phone || "--"}</div>
+
+
+                      <div className="space-y-1">
+                        {order.items.map((item, i) => (
+                          <p key={i} className="truncate">
+                            {item.title} × {item.quantity}
+                          </p>
+                        ))}
+                      </div>
+
+
+                      <div className="space-y-1">
+                        {order.items.map((item, i) => (
+                          <p key={i}>₹{item.price}</p>
+                        ))}
+                      </div>
+
+                      <div className="text-center font-medium">
+                        {totalQty}
+                      </div>
+
+                      <div className="text-right font-semibold text-[#EAB308]">
+                        ₹{order.total}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+        )}
+
       </div>
-    </>
+    </div>
   );
 };
+
 export default Dashboard;
+
+

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,48 +39,40 @@ const Checkout = ({ cart, setCart }) => {
   const onSubmit = async (data) => {
     setLoading(true);
 
-    const orderSummary = cart
-      .map((item) => `${item.title} × ${item.quantity}`)
-      .join(", ");
-
-    const totalAmount = cart.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-
-    const payload = {
-      ...data,
-      order: orderSummary,
-      total: `₹${totalAmount}`,
-    };
-
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/checkout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
+      const orderSummary = cart.map((item) => ({
+        title: item.title,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+      const order = {
+        id: Date.now(),
+        customer: data,
+        items: orderSummary,
+        total: totalAmount,
+        status: "Placed",
+        date: new Date().toISOString(),
+      };
+
+      const existingOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+      localStorage.setItem(
+        "orders",
+        JSON.stringify([...existingOrders, order])
       );
 
-      if (response.ok) {
-        setSuccess(true);
-        reset();
-        setCart([]);
-        localStorage.removeItem("cart");
+      setSuccess(true);
+      reset();
+      setCart([]);
+      localStorage.removeItem("cart");
 
-        setTimeout(() => {
-          setSuccess(false);
-        }, 5000);
-      } else {
-        alert("Oops! Something went wrong.");
-      }
+      setTimeout(() => {
+        setSuccess(false);
+      }, 5000);
     } catch (err) {
-      alert("Failed to submit order. Please try again.");
+      alert("Failed to place order. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -87,13 +80,12 @@ const Checkout = ({ cart, setCart }) => {
 
   return (
     <div className="min-h-screen pt-24 pb-10 px-4 bg-second">
-      <div className="max-w-xl mx-auto bg-yellow-400 p-6 rounded-lg shadow-md">
+      <div className="max-w-xl mx-auto bg-[#ffeeb3] p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4 text-center">
           🧾 Place Your Order
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Name */}
           <div>
             <label className="block font-semibold">Name</label>
             <input
@@ -102,9 +94,12 @@ const Checkout = ({ cart, setCart }) => {
               className="w-full border rounded px-4 py-2"
             />
             {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.name.message}
+              </p>
             )}
           </div>
+
           <div>
             <label className="block font-semibold">Email</label>
             <input
@@ -113,11 +108,12 @@ const Checkout = ({ cart, setCart }) => {
               className="w-full border rounded px-4 py-2"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
-          {/* Phone */}
           <div>
             <label className="block font-semibold">Phone</label>
             <input
@@ -126,11 +122,12 @@ const Checkout = ({ cart, setCart }) => {
               className="w-full border rounded px-4 py-2"
             />
             {errors.phone && (
-              <p className="text-red-500 text-sm">{errors.phone.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.phone.message}
+              </p>
             )}
           </div>
 
-          {/* Address */}
           <div>
             <label className="block font-semibold">Delivery Address</label>
             <textarea
@@ -138,12 +135,13 @@ const Checkout = ({ cart, setCart }) => {
               className="w-full border rounded px-4 py-2"
             />
             {errors.address && (
-              <p className="text-red-500 text-sm">{errors.address.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.address.message}
+              </p>
             )}
           </div>
 
-          {/* Order Summary */}
-          <div className="bg-yellow-300 p-3 rounded-lg">
+          <div className="bg-[#f9db79] p-3 rounded-lg">
             <p className="font-bold">🛒 Your Order:</p>
             {cart.map((item) => (
               <p key={item._id}>
@@ -172,11 +170,10 @@ const Checkout = ({ cart, setCart }) => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded-lg font-bold transition ${
-              loading
-                ? "bg-gray-300 text-gray-700 cursor-not-allowed"
-                : "bg-black text-yellow-300 hover:bg-gray-800"
-            }`}
+            className={`w-full py-2 rounded-lg font-bold transition ${loading
+              ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+              : "bg-black text-[#f9db79] hover:bg-gray-800"
+              }`}
           >
             {loading ? "Placing Order..." : "Place Order"}
           </button>

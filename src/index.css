@@ -7,7 +7,7 @@
 }
 
 .bg-second {
-  background: #ffe169; 
+  background: #f9db79; 
 }
 
 .navbar {
@@ -29,7 +29,7 @@
 
 @layer components{
   .hero-btn{
-    @apply mt-6 px-6 py-3 bg-black hover:bg-gray-900 text-yellow-400 font-semibold text-lg rounded-full shadow-lg transition
+    @apply mt-6 px-6 py-3 bg-black hover:bg-gray-900 text-[#f9db79] font-semibold text-lg rounded-full shadow-lg transition
   }
 
 
@@ -41,7 +41,7 @@
 /* home & product page  atc and quantity*/
 
   .quantity-btn{
-    @apply text-lg px-2 py-1 font-bold text-[#ffe169]
+  @apply text-lg px-2 py-1 font-bold text-[#f9db79]
 }
 
   .quantity-box{
@@ -49,7 +49,7 @@
 }
 
   .atc-btn{
-    @apply bg-black hover:bg-gray-800 text-[#ffe169] px-4 py-2 rounded-full transition
+    @apply bg-black hover:bg-gray-800 text-[#f9db79] px-4 py-2 rounded-full transition
 }
 
 
@@ -60,11 +60,11 @@
 }
 
   .cart-btns{
-    @apply bg-black hover:bg-gray-900 text-yellow-400 font-bold py-2 px-6 rounded-full transition
+    @apply bg-black hover:bg-gray-900 text-[#f9db79] font-bold py-2 px-6 rounded-full transition
 }
 
   .total-amount{
-    @apply flex flex-col sm:flex-row justify-between items-center bg-yellow-400 p-6 rounded-lg shadow-md mt-6 gap-4
+    @apply flex flex-col sm:flex-row justify-between items-center bg-[#ffeeb3] p-6 rounded-lg shadow-md mt-6 gap-4
 }
 
   .cart-btn-box{

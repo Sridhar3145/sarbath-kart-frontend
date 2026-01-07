@@ -17,9 +17,9 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
     const updatedCart = cart.map((item) =>
       item._id === _id
         ? {
-            ...item,
-            quantity: Math.max(1, item.quantity + delta),
-          }
+          ...item,
+          quantity: Math.max(1, item.quantity + delta),
+        }
         : item
     );
     setCart(updatedCart);
@@ -29,7 +29,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
   return (
     <div className="min-h-screen pt-24 pb-10 bg-second px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800 border-b pb-4">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-[#1F2937] border-b pb-4">
           🛒 Your Shopping Cart
         </h2>
 
@@ -49,7 +49,7 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
               return (
                 <div
                   key={`${item._id}-${item.title}`}
-                  className="bg-yellow-400 p-4 rounded-lg shadow-md mb-4"
+                  className="bg-[#ffeeb3] p-4 rounded-lg shadow-md mb-4"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="flex flex-col w-full sm:flex-row sm:items-center sm:justify-between">
@@ -137,7 +137,6 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
               );
             })}
 
-            {/* Total */}
             <div className="total-amount">
               <span className="text-xl font-bold text-gray-700">
                 Total Amount:
@@ -146,8 +145,6 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
                 ₹{totalAmount}.00
               </span>
             </div>
-
-            {/* Checkout Button */}
 
             {cart.length > 0 && (
               <div className="cart-btn-box">
@@ -167,7 +164,6 @@ const Cart = ({ cart, removeFromCart, setCart }) => {
               </div>
             )}
 
-            {/* Keep Shopping */}
             <div className="cart-btn-box">
               <button
                 onClick={() => navigate("/product")}

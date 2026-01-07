@@ -1,10 +1,10 @@
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-// Validation schema
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup
@@ -24,6 +24,7 @@ const schema = yup.object().shape({
 const Signup = () => {
   const [successful, setSuccessful] = useState(false);
   const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -35,26 +36,30 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
+      const existingUsers =
+        JSON.parse(localStorage.getItem("users")) || [];
+
+      const emailExists = existingUsers.some(
+        (user) => user.email === data.email
       );
 
-      const result = await res.json();
-      console.log(result);
-
-      if (!res.ok) {
-        throw new Error(result.msg || "Signup failed");
+      if (emailExists) {
+        throw new Error("Email already registered");
       }
+
+      const userWithRole = {
+        ...data,
+        role: data.email === "sridhar@gmail.com" ? "admin" : "user"
+      };
+
+      const updatedUsers = [...existingUsers, userWithRole];
+
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+
       setError("");
       setSuccessful(true);
       reset();
+
       setTimeout(() => {
         setSuccessful(false);
       }, 5000);
@@ -64,6 +69,7 @@ const Signup = () => {
         setError("");
       }, 5000);
     }
+
   };
 
   return (
@@ -71,7 +77,8 @@ const Signup = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-4 p-4 max-w-md mx-auto mt-10"
     >
-      <h1 className="text-2xl font-bold  text-center">Sign Up</h1>
+      <h1 className="text-2xl font-bold text-center">Sign Up</h1>
+
       <div>
         <input
           type="text"
@@ -79,8 +86,11 @@ const Signup = () => {
           {...register("name")}
           className="border p-2 w-full rounded"
         />
-        <p className="text-red-500 text-sm">{errors.name?.message}</p>
+        <p className="text-red-500 text-sm">
+          {errors.name?.message}
+        </p>
       </div>
+
       <div>
         <input
           type="email"
@@ -88,7 +98,9 @@ const Signup = () => {
           {...register("email")}
           className="border p-2 w-full rounded"
         />
-        <p className="text-red-500 text-sm">{errors.email?.message}</p>
+        <p className="text-red-500 text-sm">
+          {errors.email?.message}
+        </p>
       </div>
 
       <div>
@@ -98,7 +110,9 @@ const Signup = () => {
           {...register("password")}
           className="border p-2 w-full rounded"
         />
-        <p className="text-red-500 text-sm">{errors.password?.message}</p>
+        <p className="text-red-500 text-sm">
+          {errors.password?.message}
+        </p>
       </div>
 
       <button
@@ -109,7 +123,9 @@ const Signup = () => {
       </button>
 
       {error && (
-        <p className="text-lg text-red-600 font-bold text-center">{error}</p>
+        <p className="text-lg text-red-600 font-bold text-center">
+          {error}
+        </p>
       )}
 
       {successful && (
@@ -118,7 +134,6 @@ const Signup = () => {
         </p>
       )}
 
-      {/* Link to login */}
       <p className="text-sm mt-4 text-center">
         Already have an account?{" "}
         <Link to="/login" className="text-blue-600 underline">
@@ -128,4 +143,6 @@ const Signup = () => {
     </form>
   );
 };
+
 export default Signup;
+
