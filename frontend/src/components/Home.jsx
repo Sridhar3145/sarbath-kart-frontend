@@ -16,6 +16,9 @@ const Home = ({ addToCart }) => {
     AOS.init({ duration: 1000, once: true });
     AOS.refresh();
   }, []);
+  console.log(import.meta.env.VITE_API_URL);
+
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,6 +26,7 @@ const Home = ({ addToCart }) => {
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/products`
         );
+
 
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -106,7 +110,7 @@ const Home = ({ addToCart }) => {
                 </p>
 
                 <img
-                  src={item.image}
+                  src={`${import.meta.env.VITE_API_URL}/${item.image}`}
                   alt="product"
                   className="h-44 w-44 object-contain mb-3"
                 />

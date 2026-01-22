@@ -68,7 +68,7 @@ const Products = ({ addToCart }) => {
               className="flex flex-col md:flex-row items-center mb-8 border-b pb-4"
             >
               <img
-                src={item.image}
+                src={`${import.meta.env.VITE_API_URL}/${item.image}`}
                 alt={item.title}
                 className="w-48 md:w-72 bg-[#ffeeb3]  rounded-lg shadow-gray-700 shadow-md"
               />
