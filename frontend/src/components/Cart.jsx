@@ -147,10 +147,11 @@ const Cart = ({ cart, setCart }) => {
                     <div className="flex flex-col w-full sm:flex-row sm:items-center sm:justify-between">
                       <div className="flex items-start gap-4 w-full">
                         <img
-                          src={item.image ?? item.productId?.image}
+                          src={`${import.meta.env.VITE_API_URL}/${item.image ?? item.productId?.image}`}
                           alt={item.title ?? item.productId?.title}
-                          className="w-20 h-20 object-fit rounded-lg"
+                          className="w-20 h-20 object-contain rounded-lg"
                         />
+
                         <div className="flex-1">
                           <div className="flex items-start justify-between gap-4 w-full">
                             <h3 className="text-lg font-semibold text-gray-800">
