@@ -107,38 +107,39 @@ function App() {
       ) : (
         <div className="h-screen overflow-y-scroll scrollbar scrollbar-thumb-yellow-400 scrollbar-track-black">
           <Router>
-            <Navbar cartCount={cart.length} />
+            <div className="min-h-screen flex flex-col">
 
-            <Routes>
-              <Route path="/" element={<Home addToCart={addToCart} />} />
-              <Route path="/product" element={<Products addToCart={addToCart} />} />
+              <Navbar cartCount={cart.length} />
 
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home addToCart={addToCart} />} />
+                  <Route path="/product" element={<Products addToCart={addToCart} />} />
+                  <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/contact" element={<Contact />} />
 
-              <Route
-                path="/cart"
-                element={<Cart cart={cart} setCart={setCart} />}
-              />
+                  <Route
+                    path="/checkout"
+                    element={
+                      localStorage.getItem("token") ? (
+                        <Checkout cart={cart} setCart={setCart} />
+                      ) : (
+                        <Navigate to="/login?redirect=checkout" />
+                      )
+                    }
+                  />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/contact" element={<Contact />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                </Routes>
+              </main>
 
-              <Route
-                path="/checkout"
-                element={
-                  localStorage.getItem("token") ? (
-                    <Checkout cart={cart} setCart={setCart} />
-                  ) : (
-                    <Navigate to="/login?redirect=checkout" />
-                  )
-                }
-              />
+              <Footer />
 
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-
-            <Footer />
+            </div>
           </Router>
+
         </div>
       )}
     </>

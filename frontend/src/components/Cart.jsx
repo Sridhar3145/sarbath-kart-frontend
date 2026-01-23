@@ -119,151 +119,110 @@ const Cart = ({ cart, setCart }) => {
 
   console.log(cart)
   return (
-    <div className="min-h-screen pt-24 pb-10 bg-second px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-[#1F2937] border-b pb-4">
+    <div className="min-h-screen pt-24 pb-16 bg-[#F4F6FD] px-4">
+      <div className="max-w-5xl mx-auto">
+
+        <h2 className="text-3xl font-bold mb-8 text-[#1F2937] border-b border-gray-300 pb-4">
           🛒 Your Shopping Cart
         </h2>
 
         {cart.length === 0 ? (
-          <div className="text-center text-gray-600 mt-12">
+          <div className="text-center text-gray-600 mt-20">
             <p className="text-xl">Your cart is empty.</p>
             <button
               onClick={() => navigate("/product")}
-              className="mt-6 cart-btns"
+              className="mt-6 bg-[#814BF6] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#6d3df0]"
             >
               Browse Products
             </button>
           </div>
         ) : (
           <>
-            {cart.map((item) => {
-              return (
+
+            <div className="space-y-6">
+              {cart.map((item) => (
                 <div
                   key={`${item._id}-${item.title}`}
-                  className="bg-[#ffeeb3] p-4 rounded-lg shadow-md mb-4"
+                  className="bg-white rounded-2xl shadow-md p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div className="flex flex-col w-full sm:flex-row sm:items-center sm:justify-between">
-                      <div className="flex items-start gap-4 w-full">
-                        <img
-                          src={`${import.meta.env.VITE_API_URL}/${item.image ?? item.productId?.image}`}
-                          alt={item.title ?? item.productId?.title}
-                          className="w-20 h-20 object-contain rounded-lg"
-                        />
 
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between gap-4 w-full">
-                            <h3 className="text-lg font-semibold text-gray-800">
-                              {item.title ?? item.productId?.title}
-                            </h3>
-                            <p className="text-lg font-bold text-green-600 whitespace-nowrap block sm:hidden">
-                              ₹{(item.price ?? item.productId?.price) * (item.quantity ?? item.qty)}.00
-                            </p>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-2">
-                            ₹{item.price ?? item.productId?.price} × {item.quantity ?? item.qty}
-                          </p>
+                  <div className="flex items-center gap-5">
+                    <img
+                      src={`${import.meta.env.VITE_API_URL}/${item.image ?? item.productId?.image}`}
+                      alt={item.title ?? item.productId?.title}
+                      className="w-20 h-20 object-contain bg-[#F4F6FD] rounded-xl p-2"
+                    />
 
-                          <div className="flex items-center gap-3 sm:hidden">
-                            <div className="flex items-center border rounded-4xl px-3 bg-black">
-                              <button
-                                onClick={() => updateQuantity(item, -1)}
-                                className="text-lg px-2 py-1 font-bold text-yellow"
-                              >
-                                -
-                              </button>
-                              <span className="px-3 text-lg text-yellow">
-                                {item.quantity ?? item.qty}
-                              </span>
-                              <button
-                                onClick={() => updateQuantity(item, +1)}
-                                className="text-lg px-2 py-1 font-bold text-yellow"
-                              >
-                                +
-                              </button>
-                            </div>
-
-                            <button
-                              onClick={() => handleRemove(item)}
-                              className="trash-btn"
-                            >
-                              <FaTrashAlt />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="hidden sm:flex items-center gap-6">
-                      <div className="quantity-box">
-                        <button
-                          onClick={() => updateQuantity(item, -1)}
-                          className="quantity-btn"
-                        >
-                          -
-                        </button>
-                        <span className="px-3 text-lg text-yellow">
-                          {item.quantity ?? item.qty}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(item, 1)}
-                          className="quantity-btn"
-                        >
-                          +
-                        </button>
-                      </div>
-
-                      <button
-                        onClick={() => handleRemove(item)}
-                        className="trash-btn"
-                      >
-                        <FaTrashAlt />
-                      </button>
-
-                      <p className="text-lg font-bold text-green-600 whitespace-nowrap ml-32">
-                        ₹{(item.price ?? item.productId?.price) * (item.quantity ?? item.qty)}.00
-
+                    <div>
+                      <h3 className="text-lg font-semibold text-[#1F2937]">
+                        {item.title ?? item.productId?.title}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        ₹{item.price ?? item.productId?.price} × {item.quantity ?? item.qty}
                       </p>
                     </div>
                   </div>
-                </div>
-              );
-            })}
 
-            <div className="total-amount">
-              <span className="text-xl font-bold text-gray-700">
-                Total Amount:
+                  <div className="flex items-center gap-6 justify-between sm:justify-end w-full sm:w-auto">
+
+                    <div className="flex items-center border rounded-full overflow-hidden">
+                      <button
+                        onClick={() => updateQuantity(item, -1)}
+                        className="px-4 py-2 hover:bg-gray-100"
+                      >
+                        −
+                      </button>
+                      <span className="px-4 font-semibold">
+                        {item.quantity ?? item.qty}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(item, +1)}
+                        className="px-4 py-2 hover:bg-gray-100"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => handleRemove(item)}
+                      className="text-red-500 hover:text-red-700 text-lg"
+                    >
+                      <FaTrashAlt />
+                    </button>
+
+                    <p className="text-lg font-bold text-green-600 whitespace-nowrap">
+                      ₹{(item.price ?? item.productId?.price) * (item.quantity ?? item.qty)}.00
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-md p-6 mt-10 flex justify-between items-center">
+              <span className="text-xl font-semibold text-[#1F2937]">
+                Total Amount
               </span>
-              <span className="text-xl font-bold text-green-700">
+              <span className="text-2xl font-bold text-green-600">
                 ₹{totalAmount}.00
               </span>
             </div>
 
-            {cart.length > 0 && (
-              <div className="cart-btn-box">
-                <button
-                  onClick={() => {
-                    const token = localStorage.getItem("token");
+            <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("token");
+                  token
+                    ? navigate("/checkout")
+                    : navigate("/login?redirect=checkout");
+                }}
+                className="bg-[#814BF6] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#6d3df0]"
+              >
+                Proceed to Checkout
+              </button>
 
-                    if (token) {
-                      navigate("/checkout");
-                    } else {
-                      navigate("/login?redirect=checkout");
-                    }
-                  }}
-                  className="cart-btns"
-                >
-                  Proceed to Checkout
-                </button>
-
-              </div>
-            )}
-
-            <div className="cart-btn-box">
               <button
                 onClick={() => navigate("/product")}
-                className="cart-btns"
+                className="border border-[#814BF6] text-[#814BF6] px-8 py-3 rounded-full font-semibold hover:bg-[#814BF6] hover:text-white transition"
               >
                 Keep Shopping
               </button>
@@ -273,6 +232,7 @@ const Cart = ({ cart, setCart }) => {
       </div>
     </div>
   );
+
 };
 
 export default Cart;

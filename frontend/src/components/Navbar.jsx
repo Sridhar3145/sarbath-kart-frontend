@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import { FaUserAlt } from "react-icons/fa";
 import logo from "../assets/logo.webp";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ cartCount = 2 }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+
   useEffect(() => {
     const updateUser = () => {
       const storedUser = localStorage.getItem("username");
@@ -17,60 +17,55 @@ const Navbar = ({ cartCount = 2 }) => {
 
     updateUser();
     window.addEventListener("storage", updateUser);
-
-    return () => {
-      window.removeEventListener("storage", updateUser);
-    };
+    return () => window.removeEventListener("storage", updateUser);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
-
     window.dispatchEvent(new Event("storage"));
     navigate("/login");
   };
 
-
   const ADMIN_EMAIL = "sridhar314507@gmail.com";
-
   const isAdmin =
     localStorage.getItem("token") &&
     localStorage.getItem("email") === ADMIN_EMAIL;
 
-
-  const handleToggle = () => setToggleMenu((prev) => !prev);
-
   const navLinkClass =
-    "relative font-head hover:scale-110 transition-transform duration-300 hover:text-[#1F2937] after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black hover:after:w-full after:transition-all after:duration-300";
+    "relative font-medium hover:text-[#814BF6] after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-[#814BF6] hover:after:w-full after:transition-all";
 
   return (
     <>
-      <nav className="relative bg-[#f9db79] text-black px-4 md:px-12 py-3 z-50 border-b-2 border-black">
+
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md px-4 md:px-12 py-4 border-b border-gray-200">
+
         <div className="flex justify-between items-center md:hidden relative">
-          <div className="flex items-center gap-3">
-            <button onClick={handleToggle} className="text-2xl font-bold">
-              ☰
-            </button>
-          </div>
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <button
+            onClick={() => setToggleMenu(!toggleMenu)}
+            className="text-2xl font-bold"
+          >
+            ☰
+          </button>
+
+          <div className="absolute left-1/2 -translate-x-1/2">
             <Link
               to="/"
-              className="w-20 h-20 rounded-full bg-black flex items-center justify-center overflow-hidden"
+              className="w-14 h-14 rounded-full bg-[#814BF6] flex items-center justify-center"
             >
-              <img src={logo} alt="logo" className="w-20 h-20 object-contain" />
+              <img src={logo} alt="logo" className="w-14 h-14 object-contain" />
             </Link>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
             <Link to="/signup">
-              <FaUserAlt className="w-7 h-7 text-black" />
+              <FaUserAlt className="w-7 h-7 text-[#814BF6]" />
             </Link>
             <Link to="/cart" className="relative">
-              <PiShoppingCartSimpleBold className="w-8 h-8 text-black" />
+              <PiShoppingCartSimpleBold className="w-7 h-7 text-[#814BF6]" />
               <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                {cartCount > 0 ? cartCount : 0}
+                {cartCount}
               </span>
             </Link>
           </div>
@@ -79,12 +74,17 @@ const Navbar = ({ cartCount = 2 }) => {
         <div className="hidden md:flex justify-between items-center">
           <Link
             to="/"
-            className="w-20 h-20 rounded-full bg-black flex items-center justify-center overflow-hidden"
+            className="w-20 h-20 rounded-full bg-[#814BF6] flex items-center justify-center"
           >
-            <img src={logo} alt="logo" className="w-24 h-24 object-contain" />
+            <img
+              src={logo}
+              alt="logo"
+              className="w-20 h-20 object-contain"
+            />
           </Link>
 
-          <div className="flex space-x-8 text-lg font-semibold">
+
+          <div className="flex gap-10 text-lg">
             <Link to="/" className={navLinkClass}>
               Home
             </Link>
@@ -102,51 +102,43 @@ const Navbar = ({ cartCount = 2 }) => {
                 Dashboard
               </Link>
             )}
-
-
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-5">
             <Link to="/signup">
-              <FaUserAlt className="w-7 h-7 text-black" />
+              <FaUserAlt className="w-9 h-9 bg-[#F4F6FD] text-[#814BF6] rounded-full p-2" />
             </Link>
-            <Link to="/cart" className="relative">
-              <PiShoppingCartSimpleBold className="w-8 h-8 text-black" />
 
-              {cartCount > 0 ? (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {cartCount}
-                </span>
-              ) : (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  0
-                </span>
-              )}
+            <Link to="/cart" className="relative">
+              <PiShoppingCartSimpleBold className="w-7 h-7 text-[#814BF6]" />
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {cartCount}
+              </span>
             </Link>
+
             <button
               onClick={() => {
                 const token = localStorage.getItem("token");
-                if (token) {
-                  navigate(cartCount > 0 ? "/checkout" : "/product");
-                } else {
-                  navigate("/login");
-                }
+                token
+                  ? navigate(cartCount > 0 ? "/checkout" : "/product")
+                  : navigate("/login");
               }}
-              className="bg-black text-[#f9db79] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+              className="bg-[#814BF6] text-white px-5 py-2 rounded-full font-semibold hover:bg-[#6d3df0]"
             >
               Buy Now
             </button>
+
             {!username ? (
               <Link
                 to="/login"
-                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors"
+                className="border border-[#814BF6] text-[#814BF6] px-5 py-2 rounded-full font-semibold hover:bg-[#814BF6] hover:text-white transition"
               >
                 Login
               </Link>
             ) : (
               <button
                 onClick={handleLogout}
-                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors"
+                className="border border-[#814BF6] text-[#814BF6] px-5 py-2 rounded-full font-semibold hover:bg-[#814BF6] hover:text-white transition"
               >
                 Logout
               </button>
@@ -156,41 +148,28 @@ const Navbar = ({ cartCount = 2 }) => {
       </nav>
 
       {toggleMenu && (
-        <div className="md:hidden fixed top-20 left-0 right-0 z-50 flex justify-left">
-          <div
-            onTouch
-            className="bg-yellow-400 text-black px-5 py-8 space-y-4 text-left shadow-2xl rounded-xl w-full max-w-70 "
-          >
-            <Link
-              to="/"
-              onClick={handleToggle}
-              className="block text-lg font-medium hover:text-yellow-600 transition"
-            >
-              Home
-            </Link>
-            <Link
-              to="/product"
-              onClick={handleToggle}
-              className="block text-lg font-medium hover:text-yellow-600 transition"
-            >
-              Products
-            </Link>
-            <Link
-              to="/cart"
-              onClick={handleToggle}
-              className="block text-lg font-medium hover:text-yellow-600 transition"
-            >
-              Cart
-            </Link>
-            <Link
-              to="/contact"
-              onClick={handleToggle}
-              className="block text-lg font-medium hover:text-yellow-600 transition"
-            >
-              Contact
-            </Link>
+        <div className="md:hidden fixed top-20 left-0 right-0 z-40 flex justify-center">
+          <div className="bg-white rounded-2xl shadow-xl p-6 space-y-4 w-[90%]">
+            {["/", "/product", "/cart", "/contact"].map((path, i) => (
+              <Link
+                key={i}
+                to={path}
+                onClick={() => setToggleMenu(false)}
+                className="block text-lg font-medium text-[#1F2937] hover:text-[#814BF6]"
+              >
+                {path === "/"
+                  ? "Home"
+                  : path.replace("/", "").charAt(0).toUpperCase() +
+                  path.slice(2)}
+              </Link>
+            ))}
+
             {isAdmin && (
-              <Link to="/dashboard" className={navLinkClass}>
+              <Link
+                to="/dashboard"
+                onClick={() => setToggleMenu(false)}
+                className="block text-lg font-medium hover:text-[#814BF6]"
+              >
                 Dashboard
               </Link>
             )}
@@ -198,25 +177,21 @@ const Navbar = ({ cartCount = 2 }) => {
             <button
               onClick={() => {
                 const token = localStorage.getItem("token");
-                if (token) {
-                  navigate(cartCount > 0 ? "/checkout" : "/product");
-                } else {
-                  navigate("/login");
-                }
-                handleToggle();
+                token
+                  ? navigate(cartCount > 0 ? "/checkout" : "/product")
+                  : navigate("/login");
+                setToggleMenu(false);
               }}
-              className="bg-black text-[#f9db79] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors "
+              className="bg-[#814BF6] text-white px-4 py-2 rounded-lg font-semibold"
             >
               Buy Now
             </button>
+
             {!username ? (
               <Link
                 to="/login"
-                onClick={() => {
-                  handleLogout();
-                  handleToggle();
-                }}
-                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
+                onClick={() => setToggleMenu(false)}
+                className="block border border-[#814BF6] text-[#814BF6] px-4 py-2 rounded-lg font-semibold text-center"
               >
                 Login
               </Link>
@@ -224,9 +199,9 @@ const Navbar = ({ cartCount = 2 }) => {
               <button
                 onClick={() => {
                   handleLogout();
-                  handleToggle();
+                  setToggleMenu(false);
                 }}
-                className="bg-black text-[#f9db79] px-4 py-2 rounded-xl text-lg font-semibold hover:bg-gray-800 transition-colors ml-3"
+                className="w-full border border-[#814BF6] text-[#814BF6] px-4 py-2 rounded-lg font-semibold"
               >
                 Logout
               </button>

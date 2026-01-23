@@ -60,119 +60,134 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-[#ffeeb3]  rounded-xl shadow-md mt-20 mb-52">
-      <h2 className="section-heading">Contact Us</h2>
+    <div className="min-h-screen pt-24 pb-24 bg-[#F4F6FD] px-4">
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12">
 
-      <div className="grid md:grid-cols-2 gap-6 items-center">
-        <div className="space-y-4">
-          <p className="text-lg font-medium text-black">Get in Touch</p>
-          <p className="text-gray-600">
-            If you have any queries, feel free to reach out.
-          </p>
-          <div>
-            <p className="font-medium">📍 Address:</p>
+        <h2 className="text-3xl font-bold text-center text-[#1F2937] mb-10">
+          Contact Us
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+
+          <div className="space-y-5">
+            <h3 className="text-xl font-semibold text-[#814BF6]">
+              Get in Touch
+            </h3>
+
             <p className="text-gray-600">
-              Ilayankudi, Sivagangai, Tamil Nadu - 630702
+              If you have any queries, feel free to reach out. We’d love to hear from you.
             </p>
-          </div>
-          <div>
-            <p className="font-medium">📞 Phone:</p>
-            <p className="text-gray-600">+91 9865298470</p>
-          </div>
-          <div>
-            <p className="font-medium">📧 Email:</p>
-            <p className="text-gray-600">selvamsarbathshop@gmail.com</p>
-          </div>
-        </div>
 
-        <div className="bg-second p-6 rounded-lg shadow">
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-
-            <div className="relative">
-              <input
-                type="text"
-                {...register("name")}
-                className="contact-input-style peer"
-                placeholder=" "
-                autoComplete="off"
-              />
-              <label className="contact-label-style">Name</label>
-              {errors.name && (
-                <p className="text-red-600 text-sm">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-
-            <div className="relative">
-              <input
-                type="email"
-                {...register("email")}
-                className="contact-input-style peer"
-                placeholder=" "
-                autoComplete="off"
-              />
-              <label className="contact-label-style">Email</label>
-              {errors.email && (
-                <p className="text-red-600 text-sm">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            <div className="relative">
-              <input
-                type="text"
-                {...register("contactno")}
-                className="contact-input-style peer"
-                placeholder=" "
-                autoComplete="off"
-              />
-              <label className="contact-label-style">Contact No</label>
-              {errors.contactno && (
-                <p className="text-red-600 text-sm">
-                  {errors.contactno.message}
-                </p>
-              )}
-            </div>
-
-            <div className="relative">
-              <textarea
-                rows="4"
-                {...register("message")}
-                className="contact-input-style peer"
-                placeholder=" "
-                autoComplete="off"
-              ></textarea>
-              <label className="contact-label-style">Message</label>
-              {errors.message && (
-                <p className="text-red-600 text-sm">
-                  {errors.message.message}
-                </p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-2 rounded-md text-[#f9db79] shadow-lg transition ${loading
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-black hover:bg-gray-800"
-                }`}
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </button>
-
-            {success && (
-              <p className="text-green-700 mt-4 text-xl">
-                ✅ Your message has been sent successfully!
+            <div>
+              <p className="font-medium text-[#1F2937]">📍 Address</p>
+              <p className="text-gray-600">
+                Ilayankudi, Sivagangai, Tamil Nadu – 630702
               </p>
-            )}
-          </form>
+            </div>
+
+            <div>
+              <p className="font-medium text-[#1F2937]">📞 Phone</p>
+              <p className="text-gray-600">+91 9865298470</p>
+            </div>
+
+            <div>
+              <p className="font-medium text-[#1F2937]">📧 Email</p>
+              <p className="text-gray-600">
+                selvamsarbathshop@gmail.com
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-[#F4F6FD] rounded-xl p-6 shadow-md">
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  {...register("name")}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+                />
+                {errors.name && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  {...register("email")}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+                />
+                {errors.email && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Contact No
+                </label>
+                <input
+                  type="text"
+                  {...register("contactno")}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+                />
+                {errors.contactno && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.contactno.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Message
+                </label>
+                <textarea
+                  rows="4"
+                  {...register("message")}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+                ></textarea>
+                {errors.message && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.message.message}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full py-3 rounded-full font-semibold transition ${loading
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#814BF6] text-white hover:bg-[#6d3df0]"
+                  }`}
+              >
+                {loading ? "Sending..." : "Send Message"}
+              </button>
+
+              {success && (
+                <p className="text-black mt-4 font-medium text-center text-lg">
+                  ✅ Your message has been sent successfully!
+                </p>
+              )}
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
+
 };
 
 export default Contact;

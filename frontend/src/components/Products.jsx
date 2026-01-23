@@ -56,49 +56,54 @@ const Products = ({ addToCart }) => {
 
   return (
     <>
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-5xl mx-auto p-6 space-y-10">
         {loading ? (
-          <div className="text-center text-black font-bold text-2xl pt-20">
+          <div className="text-center text-[#1F2937] font-semibold text-2xl pt-20">
             Loading products...
           </div>
         ) : (
           productt.map((item) => (
             <div
               key={item._id}
-              className="flex flex-col md:flex-row items-center mb-8 border-b pb-4"
+              className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-2xl shadow-xl p-8"
             >
-              <img
-                src={`${import.meta.env.VITE_API_URL}/${item.image}`}
-                alt={item.title}
-                className="w-48 md:w-72 bg-[#ffeeb3]  rounded-lg shadow-gray-700 shadow-md"
-              />
+              <div className="flex items-center justify-center bg-[#F4F6FD] rounded-xl p-6">
+                <img
+                  src={`${import.meta.env.VITE_API_URL}/${item.image}`}
+                  alt={item.title}
+                  className="h-80 object-contain drop-shadow-xl"
+                />
+              </div>
 
-              <div className="md:ml-8 mt-6 md:mt-0">
-                <h1 className="text-3xl font-bold text-[#1F2937]">
+              <div className="flex flex-col justify-center">
+                <h1 className="text-4xl font-bold text-[#1F2937]">
                   {item.title}
                 </h1>
-                <p className="text-xl text-[#1F2937] font-semibold mt-2">
+
+                <p className="text-2xl font-semibold text-[#814BF6] mt-3">
                   ₹{item.price}.00
                 </p>
-                <p className="text-[#4B5563] mt-4">
+
+                <p className="text-[#4B5563] mt-4 leading-relaxed">
                   Refreshing {item.title.toLowerCase()} made with high-quality
-                  ingredients. Perfect for summer!
+                  ingredients. Perfect for summer refreshment.
                 </p>
 
-                <div className="mt-4 flex items-center space-x-4">
-                  <div className="quantity-box">
+                <div className="flex items-center gap-4 mt-6">
+
+                  <div className="flex items-center border rounded-full overflow-hidden">
                     <button
                       onClick={() => decreaseQty(item._id)}
-                      className="quantity-btn"
+                      className="px-4 py-2 text-lg hover:bg-gray-100"
                     >
-                      -
+                      −
                     </button>
-                    <span className="px-3 text-lg text-yellow">
+                    <span className="px-5 font-semibold">
                       {quantities[item._id] || 1}
                     </span>
                     <button
                       onClick={() => increaseQty(item._id)}
-                      className="quantity-btn"
+                      className="px-4 py-2 text-lg hover:bg-gray-100"
                     >
                       +
                     </button>
@@ -106,13 +111,13 @@ const Products = ({ addToCart }) => {
 
                   <button
                     onClick={() => handleAddToCart(item)}
-                    className="atc-btn"
+                    className="bg-[#814BF6] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#6d3df0] transition"
                   >
                     Add to Cart
                   </button>
                 </div>
 
-                <p className="text-gray-700 mt-8">
+                <p className="text-sm text-[#6B7280] mt-6 leading-relaxed">
                   {item.description}
                 </p>
               </div>

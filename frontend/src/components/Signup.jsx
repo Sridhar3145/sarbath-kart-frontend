@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -24,6 +25,7 @@ const schema = yup.object().shape({
 const Signup = () => {
   const [successful, setSuccessful] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const {
     register,
@@ -59,7 +61,8 @@ const Signup = () => {
       reset();
       setTimeout(() => {
         setSuccessful(false);
-      }, 5000);
+        navigate("/login");
+      }, 3000);
     } catch (err) {
       setError(err.message);
       setTimeout(() => {
@@ -69,77 +72,100 @@ const Signup = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 p-4 max-w-md mx-auto mt-10"
-    >
-      <h1 className="text-2xl font-bold text-center">Sign Up</h1>
-
-      <div>
-        <input
-          type="text"
-          placeholder="Name"
-          {...register("name")}
-          className="border p-2 w-full rounded"
-        />
-        <p className="text-red-500 text-sm">
-          {errors.name?.message}
-        </p>
-      </div>
-
-      <div>
-        <input
-          type="email"
-          placeholder="Email"
-          autoComplete="off"
-          {...register("email")}
-          className="border p-2 w-full rounded"
-        />
-        <p className="text-red-500 text-sm">
-          {errors.email?.message}
-        </p>
-      </div>
-
-      <div>
-        <input
-          type="password"
-          placeholder="Password"
-          autoComplete="new-password"
-          {...register("password")}
-          className="border p-2 w-full rounded"
-        />
-        <p className="text-red-500 text-sm">
-          {errors.password?.message}
-        </p>
-      </div>
-
-      <button
-        type="submit"
-        className="bg-black text-[#FFE169] px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors w-full"
+    <div className="min-h-screen flex items-center justify-center bg-[#F4F6FD] px-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6"
       >
-        Sign Up
-      </button>
+        <div className="text-center space-y-1">
+          <h2 className="text-3xl font-extrabold text-[#1F2937]">
+            Create Your Account
+          </h2>
+          <p className="text-sm text-gray-600">
+            Join us and start your journey
+          </p>
+        </div>
 
-      {error && (
-        <p className="text-lg text-red-600 font-bold text-center">
-          {error}
+        <div className="space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Full Name
+          </label>
+          <input
+            type="text"
+            placeholder="Your name"
+            {...register("name")}
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+          />
+          <p className="text-red-500 text-xs">
+            {errors.name?.message}
+          </p>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Email address
+          </label>
+          <input
+            type="email"
+            placeholder="Email"
+            autoComplete="off"
+            {...register("email")}
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+          />
+          <p className="text-red-500 text-xs">
+            {errors.email?.message}
+          </p>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <input
+            type="password"
+            placeholder="Password"
+            autoComplete="new-password"
+            {...register("password")}
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#814BF6]"
+          />
+          <p className="text-red-500 text-xs">
+            {errors.password?.message}
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full rounded-full py-2.5 font-semibold bg-[#814BF6] text-white hover:scale-[1.02] hover:shadow-lg transition-all"
+        >
+          Sign Up
+        </button>
+
+        {error && (
+          <p className="text-red-600 text-sm font-semibold text-center">
+            {error}
+          </p>
+        )}
+
+        {successful && (
+          <p className="text-black text-lg font-semibold text-center">
+            Signup successful ✔️
+          </p>
+        )}
+
+        <p className="text-sm text-center text-gray-600">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="font-semibold text-[#814BF6] hover:underline"
+          >
+            Login
+          </Link>
         </p>
-      )}
-
-      {successful && (
-        <p className="text-lg text-black font-bold text-center">
-          Signup successful!
-        </p>
-      )}
-
-      <p className="text-sm mt-4 text-center">
-        Already have an account?{" "}
-        <Link to="/login" className="text-blue-600 underline">
-          Login
-        </Link>
-      </p>
-    </form>
+      </form>
+    </div>
   );
+
+
 };
 
 export default Signup;

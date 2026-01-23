@@ -86,114 +86,116 @@ const Checkout = ({ cart, setCart }) => {
 
 
   return (
-    <div className="min-h-screen pt-24 pb-10 px-4 bg-second">
-      <div className="max-w-xl mx-auto bg-[#ffeeb3] p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          🧾 Place Your Order
-        </h2>
+    <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F4F6FD]">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block font-semibold">Name</label>
-            <input
-              type="text"
-              {...register("name")}
-              className="w-full border rounded px-4 py-2"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm">
-                {errors.name.message}
+        <div className="md:col-span-2 bg-white rounded-xl shadow-lg p-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+            Checkout
+          </h2>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="checkout-label">Name</label>
+                <input {...register("name")} className="checkout-input" />
+                {errors.name && <p className="error-text">{errors.name.message}</p>}
+              </div>
+
+              <div>
+                <label className="checkout-label">Email</label>
+                <input {...register("email")} className="checkout-input" />
+                {errors.email && <p className="error-text">{errors.email.message}</p>}
+              </div>
+
+              <div>
+                <label className="checkout-label">Phone</label>
+                <input {...register("phone")} className="checkout-input" />
+                {errors.phone && <p className="error-text">{errors.phone.message}</p>}
+              </div>
+
+              <div>
+                <label className="checkout-label">Delivery Address</label>
+                <textarea
+                  rows="3"
+                  {...register("address")}
+                  className="checkout-input resize-none"
+                />
+                {errors.address && (
+                  <p className="error-text">{errors.address.message}</p>
+                )}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full mt-6 py-3 rounded-xl font-semibold text-lg transition-all
+              ${loading
+                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                  : "bg-[#814BF6] text-white hover:bg-[#6b3ee8] hover:shadow-lg active:scale-95"
+                }`}
+            >
+              {loading ? "Placing Order..." : "Place Order"}
+            </button>
+
+
+            {success && (
+              <p className="text-black text-lg font-medium mt-3 text-center">
+                Order placed successfully !!
               </p>
             )}
-          </div>
+          </form>
+        </div>
 
-          <div>
-            <label className="block font-semibold">Email</label>
-            <input
-              type="email"
-              {...register("email")}
-              className="w-full border rounded px-4 py-2"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+        <div className="bg-white rounded-xl shadow-lg p-6 h-fit">
+          <h3 className="text-lg font-semibold mb-4">
+            Order Summary
+          </h3>
 
-          <div>
-            <label className="block font-semibold">Phone</label>
-            <input
-              type="text"
-              {...register("phone")}
-              className="w-full border rounded px-4 py-2"
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-sm">
-                {errors.phone.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label className="block font-semibold">Delivery Address</label>
-            <textarea
-              {...register("address")}
-              className="w-full border rounded px-4 py-2"
-            />
-            {errors.address && (
-              <p className="text-red-500 text-sm">
-                {errors.address.message}
-              </p>
-            )}
-          </div>
-
-          <div className="bg-[#f9db79] p-3 rounded-lg">
-            <p className="font-bold">🛒 Your Order:</p>
+          <div className="space-y-3 text-sm">
             {cart.map((item) => (
-              <p key={item._id}>
-                ₹{item.price ?? item.productId?.price} × {item.quantity ?? item.qty}
-              </p>
+              <div
+                key={item._id}
+                className="flex justify-between"
+              >
+                <span>
+                  {item.title ?? item.productId?.title} ×{" "}
+                  {item.quantity ?? item.qty}
+                </span>
+                <span className="font-medium">
+                  ₹{item.price ?? item.productId?.price}
+                </span>
+              </div>
             ))}
-            <p className="mt-2 font-bold text-green-700">
-              Total: ₹{totalAmount}
-            </p>
           </div>
 
-          <div className="mb-6 text-center">
-            <p className="font-semibold mb-2 text-lg">
-              Scan & Pay (GPay, PhonePe, Paytm)
+          <div className="border-t mt-4 pt-4 flex justify-between text-lg font-bold">
+            <span>Total</span>
+            <span className="text-green-700">₹{totalAmount}</span>
+          </div>
+
+          <div className="mt-6 text-center border rounded-lg p-4">
+            <p className="text-sm font-medium mb-2">
+              Scan & Pay
             </p>
             <img
               src={qr}
-              alt="GPay QR Code"
-              className="mx-auto w-48 h-48 border rounded-lg"
+              alt="QR"
+              className="mx-auto w-40 h-40"
             />
-            <p className="text-sm text-gray-600 mt-2">
-              After payment, submit your order below 👇
+            <p className="text-xs text-gray-500 mt-2">
+              Complete payment before placing order
             </p>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-2 rounded-lg font-bold transition ${loading
-              ? "bg-gray-300 text-gray-700 cursor-not-allowed"
-              : "bg-black text-[#f9db79] hover:bg-gray-800"
-              }`}
-          >
-            {loading ? "Placing Order..." : "Place Order"}
-          </button>
-
-          {success && (
-            <p className="text-green-700 mt-4 text-center text-sm">
-              ✅ Order placed successfully! Thank you 😊
-            </p>
-          )}
-        </form>
       </div>
     </div>
   );
+
+
 };
 
 export default Checkout;
