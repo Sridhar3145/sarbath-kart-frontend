@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import hero2 from "../assets/hero2.png";
+import hero3 from "../assets/hero3.png";
 
 
 import AOS from "aos";
@@ -71,7 +71,13 @@ const Home = ({ addToCart }) => {
   return (
     <>
       <section className="hero-section">
-        <img src={hero2} alt="Fruit-image" data-aos="fade-right" />
+        <img
+          src={hero3}
+          alt="Fruit-image"
+          data-aos="fade-right"
+          className="w-[38%] h-[38%] object-contain"
+        />
+
         <div className="text-center text-white px-4" data-aos="fade-left">
           <h1 className="text-5xl md:text-6xl font-bold text-[#814BF6]">
             Cool{" "}
