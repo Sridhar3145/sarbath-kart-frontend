@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -23,7 +24,6 @@ const schema = yup.object().shape({
 });
 
 const Signup = () => {
-  const [successful, setSuccessful] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -57,14 +57,14 @@ const Signup = () => {
         throw new Error(signUpData.msg || "Signup failed");
       }
       setError("");
-      setSuccessful(true);
+      toast.success("SignUp SuccessFully")
+
       reset();
       setTimeout(() => {
-        setSuccessful(false);
         navigate("/login");
       }, 3000);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message)
       setTimeout(() => {
         setError("");
       }, 5000);
@@ -143,12 +143,6 @@ const Signup = () => {
         {error && (
           <p className="text-red-600 text-sm font-semibold text-center">
             {error}
-          </p>
-        )}
-
-        {successful && (
-          <p className="text-black text-lg font-semibold text-center">
-            Signup successful ✔️
           </p>
         )}
 

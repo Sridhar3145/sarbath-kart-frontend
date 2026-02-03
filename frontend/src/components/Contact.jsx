@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 const Contact = () => {
-  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -48,12 +48,11 @@ const Contact = () => {
         throw new Error("Failed");
       }
 
-      setSuccess(true);
+      toast.success("Message send SuccessFully !!")
       reset();
 
-      setTimeout(() => setSuccess(false), 5000);
     } catch (error) {
-      alert("Failed to send. Please try again.");
+      toast.error("Failed to send. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -175,12 +174,6 @@ const Contact = () => {
               >
                 {loading ? "Sending..." : "Send Message"}
               </button>
-
-              {success && (
-                <p className="text-black mt-4 font-medium text-center text-lg">
-                  ✅ Your message has been sent successfully!
-                </p>
-              )}
             </form>
           </div>
         </div>

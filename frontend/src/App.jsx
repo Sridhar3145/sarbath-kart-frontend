@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Toaster } from 'react-hot-toast'
 
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -100,6 +101,9 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-center" containerStyle={{
+        top: 160,
+      }} />
       {loading ? (
         <div className="flex items-center justify-center h-screen text-5xl font-bold text-black">
           Loading...

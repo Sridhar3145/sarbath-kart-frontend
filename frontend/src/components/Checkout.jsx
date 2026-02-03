@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import qr from "../assets/qr.webp";
+import toast from "react-hot-toast";
 
 const Checkout = ({ cart, setCart }) => {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -44,7 +44,7 @@ const Checkout = ({ cart, setCart }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("Please login to place order");
+        toast.error("Please login to place order");
         return;
       }
 
@@ -69,14 +69,11 @@ const Checkout = ({ cart, setCart }) => {
       setCart([]);
 
 
-      setSuccess(true);
+      toast.success('Order placed successfully !!')
       reset();
 
-      setTimeout(() => {
-        setSuccess(false);
-      }, 5000);
     } catch (err) {
-      alert(err.message || "Failed to place order. Please try again.");
+      toast.error(err.message || "Failed to place order. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -139,13 +136,6 @@ const Checkout = ({ cart, setCart }) => {
             >
               {loading ? "Placing Order..." : "Place Order"}
             </button>
-
-
-            {success && (
-              <p className="text-black text-lg font-medium mt-3 text-center">
-                Order placed successfully !!
-              </p>
-            )}
           </form>
         </div>
 

@@ -67,7 +67,7 @@ const Products = ({ addToCart }) => {
               key={item._id}
               className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-2xl shadow-xl p-8"
             >
-              <div className="flex items-center justify-center bg-[#F4F6FD] rounded-xl p-6">
+              <div className="flex items-center justify-center bg-[#e5e9fa] rounded-xl p-6">
                 <img
                   src={`${import.meta.env.VITE_API_URL}/${item.image}`}
                   alt={item.title}

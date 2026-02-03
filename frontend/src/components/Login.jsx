@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 const schema = yup.object().shape({
   email: yup
@@ -21,7 +22,6 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
-  const [successful, setSuccessful] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false)
@@ -67,53 +67,49 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
-      setError("");
+
       const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-
       const loginData = await res.json();
-      console.log("LOGIN RESPONSE 👉", loginData);
 
       if (!res.ok) {
-        setError(loginData.msg || "Login failed");
+        toast.error(loginData.msg || "Invalid email or password ❌");
         setIsLoading(false);
         return;
       }
 
       localStorage.setItem("token", loginData.token);
       localStorage.setItem("username", loginData.name);
-      localStorage.setItem("email", loginData.email)
+      localStorage.setItem("email", loginData.email);
 
       window.dispatchEvent(new Event("storage"));
 
       await mergeGuestCartToBackend(loginData.token);
+      toast.success('Login SuccessFully',
+        setTimeout(() => {
 
-      setSuccessful(true);
+          toast.success(
+
+            `Welcome back, ${loginData.name} 👋`);
+        }, 2000)
+      )
       reset();
 
       setTimeout(() => {
-        setSuccessful(false);
-
         if (loginData.email === "sridhar314507@gmail.com") {
           navigate("/dashboard");
         } else {
           navigate("/");
         }
-      }, 2000);
+      }, 1500);
 
     } catch (err) {
-      console.error(err);
-      setError('Something went wrong');
-
-      setTimeout(() => {
-        setError("");
-      }, 5000);
+      toast.error("Something went wrong. Please try again 😢");
+      setIsLoading(false);
     }
   };
 
@@ -175,17 +171,6 @@ const Login = () => {
           {isLoading ? "Logging in..." : "Login"}
         </button>
 
-        {error && (
-          <p className="text-red-600 text-sm font-semibold text-center">
-            {error}
-          </p>
-        )}
-
-        {successful && (
-          <p className="text-black text-lg font-semibold text-center">
-            Login successful ✔️
-          </p>
-        )}
 
         <p className="text-sm text-center text-gray-600">
           Don’t have an account?{" "}

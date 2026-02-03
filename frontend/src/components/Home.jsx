@@ -114,11 +114,12 @@ const Home = ({ addToCart }) => {
             >
               <div className="p-6 flex flex-col items-center text-center">
 
-                <div className="bg-[#F4F6FD] rounded-xl p-4 mb-4">
+                <div className="bg-[#e5e9fa] rounded-xl p-4 mb-4">
                   <img
                     src={`${import.meta.env.VITE_API_URL}/${item.image}`}
                     alt={item.title}
-                    className="h-44 w-44 object-contain drop-shadow-lg"
+                    className="h-60 w-60 object-contain drop-shadow-lg hover:scale-110 transition-all"
+
                   />
                 </div>
 

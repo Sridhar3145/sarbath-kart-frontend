@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import { FaUserAlt } from "react-icons/fa";
 import logo from "../assets/logo.webp";
+import toast from "react-hot-toast";
 
 const Navbar = ({ cartCount = 2 }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -25,6 +26,7 @@ const Navbar = ({ cartCount = 2 }) => {
     localStorage.removeItem("username");
     localStorage.removeItem("email");
     window.dispatchEvent(new Event("storage"));
+    toast.success('Logout SuccessFully !!')
     navigate("/login");
   };
 
