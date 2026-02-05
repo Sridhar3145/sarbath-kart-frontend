@@ -41,29 +41,6 @@ const Login = () => {
     }, 2000);
   }, []);
 
-  const mergeGuestCartToBackend = async (token) => {
-    const guestCart = JSON.parse(localStorage.getItem("guest_cart")) || [];
-
-    if (guestCart.length === 0) return;
-
-    for (const item of guestCart) {
-      await fetch(`${import.meta.env.VITE_API_URL}/cart/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          productId: item._id,
-          qty: item.quantity,
-        }),
-      });
-    }
-
-    localStorage.removeItem("guest_cart");
-  };
-
-
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
@@ -88,7 +65,6 @@ const Login = () => {
 
       window.dispatchEvent(new Event("storage"));
 
-      await mergeGuestCartToBackend(loginData.token);
       toast.success('Login SuccessFully',
         setTimeout(() => {
 
